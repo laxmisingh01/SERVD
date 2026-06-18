@@ -25,7 +25,7 @@ export default function Footer() {
           <div className="flex items-center gap-6 mt-6">
 
             <a
-              href="https://github.com/YOUR_GITHUB"
+              href="https://github.com/laxmisingh01/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-400 hover:text-orange-500 transition-all duration-300 hover:scale-110"
@@ -34,7 +34,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://linkedin.com/in/YOUR_LINKEDIN"
+              href="https://www.linkedin.com/in/laxmi-singh-369492297/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-400 hover:text-orange-500 transition-all duration-300 hover:scale-110"
@@ -43,7 +43,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="https://instagram.com/YOUR_INSTAGRAM"
+              href="https://www.instagram.com/kindaa.lucky/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-400 hover:text-orange-500 transition-all duration-300 hover:scale-110"
