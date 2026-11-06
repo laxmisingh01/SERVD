@@ -1,0 +1,15 @@
+ frontend/actions/pantry.actions.js          |  30 [32m++[m[31m----[m
+ frontend/actions/recipe.actions.js          |  19 [32m+[m[31m---[m
+ frontend/app/(main)/pantry/page.jsx         |  25 [31m-----[m
+ frontend/app/(main)/pantry/recipes/page.jsx |  41 [32m++[m[31m------[m
+ frontend/app/(main)/recipe/page.jsx         |  44 [32m++[m[31m-------[m
+ frontend/app/page.js                        |  12 [32m+[m[31m--[m
+ frontend/components/Header.jsx              |  29 [32m+[m[31m-----[m
+ frontend/components/PricingModal.jsx        |  36 [31m-------[m
+ frontend/components/PricingSection.jsx      | 144 [31m----------------------------[m
+ frontend/components/ProLockedSection.jsx    |  39 [31m--------[m
+ frontend/lib/arcjet.js                      |  27 [32m+[m[31m-----[m
+ frontend/lib/checkUser.js                   |  22 [32m+[m[31m----[m
+ frontend/lib/data.js                        |  12 [32m+[m[31m--[m
+ frontend/lib/dummy.js                       |   1 [31m-[m
+ 14 files changed, 41 insertions(+), 440 deletions(-)

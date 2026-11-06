@@ -2,7 +2,7 @@
 
 import { checkUser } from "@/lib/checkUser";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { freeMealRecommendations, proTierLimit } from "@/lib/arcjet";
+import { aiFeatureLimit } from "@/lib/arcjet";
 import { request } from "@arcjet/next";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -80,8 +80,6 @@ export async function getOrGenerateRecipe(formData) {
     const normalizedTitle = normalizeTitle(recipeName);
     console.log("🔍 Searching for recipe:", normalizedTitle);
 
-    const isPro = user.subscriptionTier === "pro";
-
     // Step 1: Check if recipe already exists in DB (case-insensitive search)
     const searchResponse = await fetch(
       `${STRAPI_URL}/api/recipes?filters[title][$eqi]=${encodeURIComponent(
@@ -124,7 +122,6 @@ export async function getOrGenerateRecipe(formData) {
           recipeId: searchData.data[0].id,
           isSaved: isSaved,
           fromDatabase: true,
-          isPro,
           message: "Recipe loaded from database",
         };
       }
@@ -327,8 +324,6 @@ Guidelines:
       recipeId: createdRecipe.data.id,
       isSaved: false,
       fromDatabase: false,
-      recommendationsLimit: isPro ? "unlimited" : 5,
-      isPro,
       message: "Recipe generated and saved successfully!",
     };
   } catch (error) {
@@ -483,24 +478,17 @@ export async function getRecipesByPantryIngredients() {
     }
 
     // ✅ ARCJET RATE LIMIT CHECK
-    const isPro = user.subscriptionTier === "pro";
-    const arcjetClient = isPro ? proTierLimit : freeMealRecommendations;
-
     // Create a request object for Arcjet
     const req = await request();
 
-    const decision = await arcjetClient.protect(req, {
+    const decision = await aiFeatureLimit.protect(req, {
       userId: user.clerkId,
       requested: 1,
     });
 
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
-        throw new Error(
-          `Monthly AI recipe limit reached. ${
-            isPro ? "Please contact support." : "Upgrade to Pro!"
-          }`
-        );
+        throw new Error("Daily AI recipe limit reached. Please try again tomorrow.");
       }
       throw new Error("Request denied");
     }
@@ -584,7 +572,6 @@ Rules:
       success: true,
       recipes: recipeSuggestions,
       ingredientsUsed: ingredients,
-      recommendationsLimit: isPro ? "unlimited" : 5,
       message: `Found ${recipeSuggestions.length} recipes you can make!`,
     };
   } catch (error) {

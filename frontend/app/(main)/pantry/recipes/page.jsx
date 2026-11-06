@@ -16,7 +16,6 @@ import { Badge } from "@/components/ui/badge";
 import useFetch from "@/hooks/use-fetch";
 import { getRecipesByPantryIngredients } from "@/actions/recipe.actions";
 import RecipeCard from "@/components/RecipeCard";
-import PricingModal from "@/components/PricingModal";
 
 export default function PantryRecipesPage() {
   const {
@@ -77,27 +76,6 @@ export default function PantryRecipesPage() {
             </div>
           )}
 
-          {/* Usage Stats */}
-          {recipesData !== undefined && (
-            <div className="bg-orange-50 p-4 border-2 border-orange-200 inline-flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-orange-600" />
-              <div className="text-sm">
-                {recipesData.recommendationsLimit === "unlimited" ? (
-                  <>
-                    <span className="font-bold text-green-600">∞</span>
-                    <span className="text-orange-700 font-light">
-                      {" "}
-                      Unlimited AI recommendations (Pro Plan)
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-orange-700 font-light">
-                    Upgrade to Pro for unlimited AI recommendations
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Loading State */}
@@ -193,25 +171,24 @@ export default function PantryRecipesPage() {
           </div>
         )}
 
-        {/* Rate Limit Reached */}
+        {/* No suggestions returned */}
         {!loading && recipesData === undefined && (
           <div className="bg-linear-to-br from-orange-50 to-amber-50 p-12 text-center border-2 border-orange-200">
             <div className="bg-orange-100 w-20 h-20 border-2 border-orange-200 flex items-center justify-center mx-auto mb-6">
               <Sparkles className="w-10 h-10 text-orange-600" />
             </div>
             <h3 className="text-2xl font-bold text-stone-900 mb-2">
-              Monthly Limit Reached
+              Couldn&apos;t Load Suggestions
             </h3>
             <p className="text-stone-600 mb-8 max-w-md mx-auto font-light">
-              You&apos;ve used all your AI recipe recommendations this month.
-              Upgrade to Pro for unlimited suggestions!
+              We couldn&apos;t generate recipe suggestions right now. Please try again.
             </p>
-            <PricingModal>
-              <Button className="bg-orange-600 hover:bg-orange-700 text-white gap-2">
-                <Sparkles className="w-4 h-4" />
-                Upgrade to Pro
-              </Button>
-            </PricingModal>
+            <Button
+              onClick={() => fetchSuggestions(new FormData())}
+              className="bg-orange-600 hover:bg-orange-700 text-white gap-2"
+            >
+              Try Again
+            </Button>
           </div>
         )}
       </div>

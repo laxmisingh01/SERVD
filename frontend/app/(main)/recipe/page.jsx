@@ -31,7 +31,6 @@ import Image from "next/image";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { RecipePDF } from "@/components/RecipePDF";
 import { ClockLoader } from "react-spinners";
-import ProLockedSection from "@/components/ProLockedSection";
 
 function RecipeContent() {
   const searchParams = useSearchParams();
@@ -381,18 +380,9 @@ function RecipeContent() {
                 <div className="mt-6 pt-6 border-t-2 border-stone-200">
                   <h3 className="font-bold text-stone-900 mb-3 uppercase tracking-wide text-sm flex items-center gap-2">
                     Nutrition (per serving)
-                    {!recipeData.isPro && (
-                      <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-semibold">
-                        PRO
-                      </span>
-                    )}
                   </h3>
 
-                  <ProLockedSection
-                    isPro={recipeData.isPro}
-                    lockText="Nutrition info is Pro-only"
-                  >
-                    <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                       <div className="bg-orange-50 p-3 text-center border-2 border-orange-100">
                         <div className="text-2xl font-bold text-orange-600">
                           {recipe.nutrition.calories}
@@ -428,8 +418,7 @@ function RecipeContent() {
                           Fat
                         </div>
                       </div>
-                    </div>
-                  </ProLockedSection>
+                  </div>
                 </div>
               )}
             </div>
@@ -505,19 +494,9 @@ function RecipeContent() {
                 <h2 className="text-2xl font-bold text-stone-900 mb-4 flex items-center gap-2">
                   <Lightbulb className="w-6 h-6 text-orange-600 fill-orange-600" />
                   Chef&apos;s Tips & Tricks
-                  {!recipeData.isPro && (
-                    <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-semibold">
-                      PRO
-                    </span>
-                  )}
                 </h2>
 
-                <ProLockedSection
-                  isPro={recipeData.isPro}
-                  lockText="Chef tips are Pro-only"
-                  ctaText="Unlock Pro Tips →"
-                >
-                  <ul className="space-y-3">
+                <ul className="space-y-3">
                     {recipe.tips.map((tip, i) => (
                       <li
                         key={i}
@@ -527,8 +506,7 @@ function RecipeContent() {
                         <span className="font-light">{tip}</span>
                       </li>
                     ))}
-                  </ul>
-                </ProLockedSection>
+                </ul>
               </div>
             )}
 
@@ -537,11 +515,6 @@ function RecipeContent() {
               <div className="bg-white p-8 border-2 border-stone-200">
                 <h2 className="text-2xl font-bold text-stone-900 mb-4 flex items-center gap-2">
                   Ingredient Substitutions
-                  {!recipeData.isPro && (
-                    <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-semibold">
-                      PRO
-                    </span>
-                  )}
                 </h2>
 
                 <p className="text-stone-600 mb-6 text-sm font-light">
@@ -549,11 +522,7 @@ function RecipeContent() {
                   use:
                 </p>
 
-                <ProLockedSection
-                  isPro={recipeData.isPro}
-                  lockText="Substitutions are Pro-only"
-                >
-                  <div className="space-y-4">
+                <div className="space-y-4">
                     {recipe.substitutions.map((sub, i) => (
                       <div
                         key={i}
@@ -579,8 +548,7 @@ function RecipeContent() {
                         </div>
                       </div>
                     ))}
-                  </div>
-                </ProLockedSection>
+                </div>
               </div>
             )}
           </div>

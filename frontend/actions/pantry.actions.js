@@ -2,7 +2,7 @@
 
 import { checkUser } from "@/lib/checkUser";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { freePantryScans, proTierLimit } from "@/lib/arcjet";
+import { aiFeatureLimit } from "@/lib/arcjet";
 import { request } from "@arcjet/next";
 
 const STRAPI_URL =
@@ -20,29 +20,17 @@ export async function scanPantryImage(formData) {
       throw new Error("User not authenticated");
     }
 
-    // Check if user is Pro
-    const isPro = user.subscriptionTier === "pro";
-
-    // Apply Arcjet rate limit based on tier
-    const arcjetClient = isPro ? proTierLimit : freePantryScans;
-
     // Create a request object for Arcjet
     const req = await request();
 
-    const decision = await arcjetClient.protect(req, {
+    const decision = await aiFeatureLimit.protect(req, {
       userId: user.clerkId, // Use clerkId from checkUser
       requested: 1, // Request 1 token from bucket
     });
 
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
-        throw new Error(
-          `Monthly scan limit reached. ${
-            isPro
-              ? "Please contact support if you need more scans."
-              : "Upgrade to Pro for unlimited scans!"
-          }`
-        );
+        throw new Error("Daily AI scan limit reached. Please try again tomorrow.");
       }
       throw new Error("Request denied by security system");
     }
@@ -116,12 +104,17 @@ Rules:
     return {
       success: true,
       ingredients: ingredients.slice(0, 20),
-      scansLimit: isPro ? "unlimited" : 10,
       message: `Found ${ingredients.length} ingredients!`,
     };
   } catch (error) {
     console.error("Error scanning pantry:", error);
-    throw new Error(error.message || "Failed to scan image");
+    // Server Actions intentionally hide thrown errors in production. Return a
+    // structured result so the client can show a useful message instead of
+    // Next.js's generic "Server Components render" error.
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Failed to scan image",
+    };
   }
 }
 
@@ -250,12 +243,9 @@ export async function getPantryItems() {
 
     const data = await response.json();
 
-    const isPro = user.subscriptionTier === "pro";
-
     return {
       success: true,
       items: data.data || [],
-      scansLimit: isPro ? "unlimited" : 10,
     };
   } catch (error) {
     console.error("Error fetching pantry:", error);

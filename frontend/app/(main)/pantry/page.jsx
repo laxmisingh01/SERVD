@@ -11,7 +11,6 @@ import {
   ChefHat,
   Loader2,
   Package,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,6 @@ import {
 } from "@/actions/pantry.actions";
 import { toast } from "sonner";
 import AddToPantryModal from "@/components/AddToPantryModal";
-import PricingModal from "@/components/PricingModal";
 
 export default function PantryPage() {
   const [items, setItems] = useState([]);
@@ -157,29 +155,6 @@ export default function PantryPage() {
             Add to Pantry
           </Button>
 
-          {/* Usage Stats */}
-          {itemsData?.scansLimit !== undefined && (
-            <div className="bg-white py-3 px-4 border-2 border-stone-200 inline-flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-orange-600" />
-              <div className="text-sm">
-                {itemsData.scansLimit === "unlimited" ? (
-                  <>
-                    <span className="font-bold text-green-600">∞</span>
-                    <span className="text-stone-500">
-                      {" "}
-                      Unlimited AI scans (Pro Plan)
-                    </span>
-                  </>
-                ) : (
-                  <PricingModal>
-                    <span className="text-stone-500 cursor-pointer">
-                      Upgrade to Pro for unlimited Pantry scans
-                    </span>
-                  </PricingModal>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Quick Action Card - Find Recipes */}

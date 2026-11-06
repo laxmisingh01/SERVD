@@ -1,19 +1,13 @@
 import React from "react";
 import { ArrowRight, Star, Flame, Clock, Users } from "lucide-react";
 import Image from "next/image";
-import { SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { auth } from "@clerk/nextjs/server";
 import { SITE_STATS, FEATURES, HOW_IT_WORKS_STEPS } from "@/lib/data";
-import PricingSection from "@/components/PricingSection";
 import Link from "next/link";
 
 export default async function LandingPage() {
-  const { has } = await auth();
-  const subscriptionTier = has({ plan: "pro" }) ? "pro" : "free";
-
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900">
       {/* Hero Section */}
@@ -50,7 +44,7 @@ export default async function LandingPage() {
                   variant="primary"
                   className="px-8 py-6 text-lg"
                 >
-                  Start Cooking Free <ArrowRight className="ml-2 w-5 h-5" />
+                  Start Cooking <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
 
@@ -205,10 +199,6 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing - Now Using Component */}
-      <section className="py-24 px-4">
-        <PricingSection subscriptionTier={subscriptionTier} />
-      </section>
     </div>
   );
 }

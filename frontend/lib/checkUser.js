@@ -1,4 +1,4 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
@@ -16,10 +16,6 @@ export const checkUser = async () => {
     console.error("❌ STRAPI_API_TOKEN is missing in .env.local");
     return null;
   }
-
-  // Check if user has Pro plan
-  const { has } = await auth();
-  const subscriptionTier = has({ plan: "pro" }) ? "pro" : "free";
 
   try {
     // Check if user exists in Strapi
@@ -44,19 +40,7 @@ export const checkUser = async () => {
     if (existingUserData.length > 0) {
       const existingUser = existingUserData[0];
 
-      // Update subscription tier if changed
-      if (existingUser.subscriptionTier !== subscriptionTier) {
-        await fetch(`${STRAPI_URL}/api/users/${existingUser.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${STRAPI_API_TOKEN}`,
-          },
-          body: JSON.stringify({ subscriptionTier }),
-        });
-      }
-
-      return { ...existingUser, subscriptionTier };
+      return existingUser;
     }
 
     // Get authenticated role
@@ -92,7 +76,7 @@ export const checkUser = async () => {
       firstName: user.firstName || "",
       lastName: user.lastName || "",
       imageUrl: user.imageUrl || "",
-      subscriptionTier,
+      subscriptionTier: "free",
     };
 
     const newUserResponse = await fetch(`${STRAPI_URL}/api/users`, {

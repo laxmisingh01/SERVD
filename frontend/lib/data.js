@@ -1,9 +1,9 @@
 import { Camera, BookOpen, ChefHat, Search } from "lucide-react";
 
 export const SITE_STATS = [
-  { label: "Free Scans", val: "10/mo" },
+  { label: "AI Pantry Scans", val: "Included" },
   { label: "Recipes Generated", val: "1M+" },
-  { label: "Cost to Start", val: "$0" },
+  { label: "Subscription", val: "Not required" },
   { label: "App Store Rating", val: "4.9" },
 ];
 
@@ -13,27 +13,27 @@ export const FEATURES = [
     description:
       "Photo recognition that actually works. Know what you have instantly.",
     icon: Camera,
-    limit: "10 scans/mo free",
+    limit: "Included",
   },
   {
     title: "AI Chef Suggestions",
     description:
       "Turn random ingredients into a gourmet meal. Zero food waste.",
     icon: ChefHat,
-    limit: "5 meals/mo free",
+    limit: "Included",
   },
   {
     title: "Search Any Dish",
     description:
       "Find any recipe instantly. Filter by cuisine, time, or dietary needs.",
     icon: Search,
-    limit: "Unlimited searches",
+    limit: "Included",
   },
   {
     title: "Digital Cookbook",
     description: "Save your favorites. Export as PDF. Share with family.",
     icon: BookOpen,
-    limit: "3 saves/mo free",
+    limit: "Included",
   },
 ];
 

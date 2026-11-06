@@ -199,6 +199,5 @@ export const DUMMY_RECIPE_RESPONSE = {
   isSaved: false,
   fromDatabase: false,
   recommendationsUsed: 3,
-  recommendationsLimit: 5,
   message: "Recipe loaded successfully!",
 };
